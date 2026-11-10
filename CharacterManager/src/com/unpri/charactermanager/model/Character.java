@@ -1,26 +1,31 @@
 package com.unpri.charactermanager.model;
 
+import java.util.Objects;
+
 /**
  * Merepresentasikan satu karakter dalam aplikasi Character Manager.
  * Menerapkan prinsip Encapsulation dengan atribut private.
  */
 public class Character {
 
-    // ===== ATRIBUT =====
+    // ===== ATRIBUT STATIC (milik CLASS, dipakai bersama semua object) =====
+    private static int totalCharacterCreated = 0;
+
+    // ===== ATRIBUT INSTANCE =====
     private int id;
     private String name;
     private CharacterType type;
     private int level;
     private int hitPoints;
     private int attackPower;
-    private int mana;                       // Mini-Challenge #1
+    private int mana;
 
     // ===== CONSTRUCTOR 1: MEMBUAT KARAKTER BARU =====
     public Character(String name, CharacterType type, int level) {
         this.name = name;
         this.type = type;
-        setLevel(level);
-        // mana otomatis bernilai 0 (default int), bisa diubah lewat setMana()
+        setLevel(level);                    // sekaligus menghitung HP & attack
+        totalCharacterCreated++;
     }
 
     // ===== CONSTRUCTOR 2: MEMUAT KARAKTER DARI DATABASE =====
@@ -32,6 +37,19 @@ public class Character {
         this.level = level;
         this.hitPoints = hitPoints;
         this.attackPower = attackPower;
+        totalCharacterCreated++;
+    }
+
+    // ===== CONSTRUCTOR 3: COPY CONSTRUCTOR (object baru, data disalin) =====
+    public Character(Character other) {
+        this.id = other.id;
+        this.name = other.name;
+        this.type = other.type;
+        this.level = other.level;
+        this.hitPoints = other.hitPoints;
+        this.attackPower = other.attackPower;
+        this.mana = other.mana;
+        totalCharacterCreated++;
     }
 
     // ===== HELPER METHOD =====
@@ -68,8 +86,12 @@ public class Character {
         return attackPower;
     }
 
-    public int getMana() {                  // Mini-Challenge #2
+    public int getMana() {
         return mana;
+    }
+
+    public static int getTotalCharacterCreated() {
+        return totalCharacterCreated;
     }
 
     // ===== SETTER =====
@@ -87,9 +109,7 @@ public class Character {
 
     public void setLevel(int level) {
         if (level < 1) {
-            throw new IllegalArgumentException(
-                "Level minimal adalah 1"
-            );
+            throw new IllegalArgumentException("Level minimal adalah 1");
         }
 
         this.level = level;
@@ -105,17 +125,15 @@ public class Character {
         this.attackPower = attackPower;
     }
 
-    public void setMana(int mana) {         // Mini-Challenge #2 (dengan validasi)
+    public void setMana(int mana) {
         if (mana < 0) {
-            throw new IllegalArgumentException(
-                "Mana tidak boleh negatif"
-            );
+            throw new IllegalArgumentException("Mana tidak boleh negatif");
         }
         this.mana = mana;
     }
 
     // ===== METHOD BARU =====
-    public boolean isAlive() {              // Mini-Challenge #3
+    public boolean isAlive() {
         return hitPoints > 0;
     }
 
@@ -129,7 +147,23 @@ public class Character {
                 ", level=" + level +
                 ", hp=" + hitPoints +
                 ", atk=" + attackPower +
-                ", mana=" + mana +          // Mini-Challenge #4
+                ", mana=" + mana +
                 '}';
+    }
+
+    // ===== EQUALS (membandingkan ISI nama, bukan alamat memori) =====
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Character)) return false;
+
+        Character other = (Character) obj;
+        return Objects.equals(this.name, other.name);
+    }
+
+    // ===== HASHCODE (wajib dibuat bersama equals) =====
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }
