@@ -1,34 +1,34 @@
+package com.unpri.charactermanager;
+
 import com.unpri.charactermanager.model.Character;
 import com.unpri.charactermanager.model.CharacterType;
+import com.unpri.charactermanager.model.CharacterManager;
+import com.unpri.charactermanager.view.MainWindow;
+
+import javax.swing.SwingUtilities;
+import java.util.ArrayList;
 
 public class Main {
+
     public static void main(String[] args) {
 
-        System.out.println("=== Character Manager v0.1 ===");
+        // 1. Membuat data karakter (Model)
+        CharacterManager manager = new CharacterManager();
 
-        Character hero = new Character("Arjuna", CharacterType.WARRIOR, 5);
-        Character wizard = new Character("Merlin", CharacterType.MAGE, 3);
-        Character scout = new Character("Athena", CharacterType.ARCHER, 4);
+        manager.addCharacter(new Character("Arjuna", CharacterType.WARRIOR, 5));
+        manager.addCharacter(new Character("Merlin", CharacterType.MAGE, 3));
+        manager.addCharacter(new Character("Athena", CharacterType.ARCHER, 4));
 
-        System.out.println(hero);
-        System.out.println(wizard);
-        System.out.println(scout);
+        // 2. Menjalankan GUI melalui Event Dispatch Thread
+        SwingUtilities.invokeLater(() -> {
 
-        System.out.println();
-        System.out.println(">> " + hero.getName() + " level up!");
-        hero.setLevel(hero.getLevel() + 1);
-        System.out.println("After level up: " + hero);
+            ArrayList<Character> characters = manager.getAllCharacters();
 
-        System.out.println();
-        System.out.println(">> Nama karakter: " + hero.getName());
-        System.out.println(">> Jenis karakter: " + hero.getType());
-        System.out.println(">> HP saat ini: " + hero.getHitPoints());
+            MainWindow window = new MainWindow(characters);
 
-        // ===== Mini-Challenge #5 =====
-        System.out.println();
-        Character healer = new Character("Selene", CharacterType.HEALER, 2);
-        healer.setMana(80);
-        System.out.println(healer);
-        System.out.println(">> " + healer.getName() + " masih hidup? " + healer.isAlive());
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            window.setVisible(true);
+
+        });
     }
 }
