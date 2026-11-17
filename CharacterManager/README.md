@@ -107,3 +107,13 @@ Java.Visual/
 Link Google Docs:
 [https://docs.google.com/document/d/1voutTulYLJ89N0OwS1_937TLzqR4x7hFERFatk-zrK8/edit?usp=sharing]
 
+TP.10
+Getter/setter (JavaBeans). Setter Swing bukan sekadar mengisi field. Ia juga memicu repaint()/revalidate() dan memberi tahu listener lewat property change. Kalau field diubah langsung, tampilan tidak ikut diperbarui, dan field komponen memang tidak dibuka untuk diakses langsung (encapsulation).
+Warna latar tidak muncul. JLabel secara default non-opaque, jadi background tidak digambar. Perbaikannya l.setOpaque(true);. Kamu sudah memakainya di MainWindow dengan komentar “WAJIB”.
+setSize vs setPreferredSize vs pack(). setSize menentukan ukuran absolut, tapi layout manager bisa menimpanya. setPreferredSize adalah ukuran yang diinginkan komponen untuk layout manager. pack() menyesuaikan ukuran jendela dengan preferred size isinya. setBounds dengan null layout dihindari karena tidak menyesuaikan diri terhadap resize, DPI, font, dan OS yang berbeda.
+Warna di AppTheme, bukan Character. Konsekuensi jika dilanggar: Model jadi bergantung pada java.awt (tidak bisa dipakai headless atau untuk unit test tanpa GUI), mengganti tema berarti mengubah Model, Model tercampur urusan tampilan (melanggar single responsibility), dan menyimpan ke database atau file jadi rumit karena Color bukan data murni.
+Logical font dan deriveFont. SansSerif dan Monospaced dipetakan Java ke font yang tersedia di tiap sistem, sedangkan nama seperti “Arial” bisa tidak ada di komputer lain. deriveFont() membuat font baru dari font yang ada. Jebakannya: deriveFont(20) (int) mengubah style (angka 20 dibaca sebagai flag), sedangkan deriveFont(20f) (float) mengubah ukuran jadi 20 pt.
+
+https://docs.google.com/document/d/1gpW9CTREhxfUQKkz3pYCbBmwWvrLIQEWpibO9awHriA/edit?usp=sharing
+
+
