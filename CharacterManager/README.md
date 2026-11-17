@@ -60,3 +60,50 @@ dipakai karakter lain.
 
 ### Analisis Bagian D
 [https://docs.google.com/document/d/1WEv2pWnXOIAnm9wilN2QZBbQpcX0yIRj8k7Zv037cLw/edit?usp=sharing]
+
+
+## TP8 — MainWindow, Data Dinamis & Analisis MVC
+
+### 1. Screenshot Hasil Program
+
+- Screenshot sebelum penambahan karakter: 3 karakter.
+- Screenshot sesudah penambahan karakter: 5 karakter dan statistik rata-rata level.
+
+### 2. Alur Data dan Konsep MVC
+
+Program dimulai dari Main.java yang membuat objek CharacterManager dan menambahkan data karakter. Selanjutnya, Main mengambil daftar karakter melalui getAllCharacters() dan mengirimkannya ke MainWindow melalui constructor. MainWindow bertugas menampilkan data tersebut menggunakan JLabel secara dinamis melalui perulangan. Hal ini menunjukkan pemisahan Model dan View dalam konsep MVC.
+Character Manager — TP3 (Java Visual SIH-6406)
+
+Struktur Folder
+Java.Visual/
+├── README.md
+├── screenshots/
+│   ├── tp3.png
+│   ├── tp5.png
+│   ├── tp8-sebelum.png
+│   └── tp8-sesudah.png
+└── CharacterManager/
+    └── src/
+        └── com/
+            └── unpri/
+                └── charactermanager/
+                    ├── Main.java
+                    ├── model/
+                    │   ├── Character.java
+                    │   ├── CharacterManager.java
+                    │   └── CharacterType.java
+                    └── view/
+                        └── MainWindow.java
+
+### 3. Karakter Tambahan
+
+| Nama | Tipe | Level | Alasan |
+|---|---|---:|---|
+| Lyra | HEALER | 2 | Berperan sebagai karakter pendukung yang berfokus pada penyembuhan. |
+| Kael | WARRIOR | 8 | Berperan sebagai petarung dengan level tinggi. |
+
+### 4. Analisis GUI dan MVC
+
+Link Google Docs:
+[https://docs.google.com/document/d/1voutTulYLJ89N0OwS1_937TLzqR4x7hFERFatk-zrK8/edit?usp=sharing]
+

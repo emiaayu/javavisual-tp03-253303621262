@@ -1,3 +1,4 @@
+
 package com.unpri.charactermanager.model;
 
 import java.util.Objects;
@@ -8,7 +9,7 @@ import java.util.Objects;
  */
 public class Character {
 
-    // ===== ATRIBUT STATIC (milik CLASS, dipakai bersama semua object) =====
+    // ===== ATRIBUT STATIC =====
     private static int totalCharacterCreated = 0;
 
     // ===== ATRIBUT INSTANCE =====
@@ -20,15 +21,16 @@ public class Character {
     private int attackPower;
     private int mana;
 
-    // ===== CONSTRUCTOR 1: MEMBUAT KARAKTER BARU =====
+    // ===== CONSTRUCTOR 1: KARAKTER BARU =====
     public Character(String name, CharacterType type, int level) {
         this.name = name;
         this.type = type;
-        setLevel(level);                    // sekaligus menghitung HP & attack
+        this.mana = 0;
+        setLevel(level);
         totalCharacterCreated++;
     }
 
-    // ===== CONSTRUCTOR 2: MEMUAT KARAKTER DARI DATABASE =====
+    // ===== CONSTRUCTOR 2: DATA DARI DATABASE =====
     public Character(int id, String name, CharacterType type,
                      int level, int hitPoints, int attackPower) {
         this.id = id;
@@ -37,11 +39,14 @@ public class Character {
         this.level = level;
         this.hitPoints = hitPoints;
         this.attackPower = attackPower;
+        this.mana = 0;
         totalCharacterCreated++;
     }
 
-    // ===== CONSTRUCTOR 3: COPY CONSTRUCTOR (object baru, data disalin) =====
+    // ===== CONSTRUCTOR 3: COPY CONSTRUCTOR =====
     public Character(Character other) {
+        Objects.requireNonNull(other, "Character tidak boleh null");
+
         this.id = other.id;
         this.name = other.name;
         this.type = other.type;
@@ -49,6 +54,7 @@ public class Character {
         this.hitPoints = other.hitPoints;
         this.attackPower = other.attackPower;
         this.mana = other.mana;
+
         totalCharacterCreated++;
     }
 
@@ -109,7 +115,9 @@ public class Character {
 
     public void setLevel(int level) {
         if (level < 1) {
-            throw new IllegalArgumentException("Level minimal adalah 1");
+            throw new IllegalArgumentException(
+                "Level minimal adalah 1"
+            );
         }
 
         this.level = level;
@@ -127,12 +135,15 @@ public class Character {
 
     public void setMana(int mana) {
         if (mana < 0) {
-            throw new IllegalArgumentException("Mana tidak boleh negatif");
+            throw new IllegalArgumentException(
+                "Mana tidak boleh negatif"
+            );
         }
+
         this.mana = mana;
     }
 
-    // ===== METHOD BARU =====
+    // ===== METHOD TAMBAHAN =====
     public boolean isAlive() {
         return hitPoints > 0;
     }
@@ -151,17 +162,23 @@ public class Character {
                 '}';
     }
 
-    // ===== EQUALS (membandingkan ISI nama, bukan alamat memori) =====
+    // ===== EQUALS =====
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Character)) return false;
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Character)) {
+            return false;
+        }
 
         Character other = (Character) obj;
+
         return Objects.equals(this.name, other.name);
     }
 
-    // ===== HASHCODE (wajib dibuat bersama equals) =====
+    // ===== HASHCODE =====
     @Override
     public int hashCode() {
         return Objects.hash(name);
